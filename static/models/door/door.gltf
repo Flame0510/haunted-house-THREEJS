@@ -1,0 +1,281 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.5.17",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0,
+                1,
+                2,
+                3
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "name" : "Light",
+            "rotation" : [
+                0.16907575726509094,
+                0.7558803558349609,
+                -0.27217137813568115,
+                0.570947527885437
+            ],
+            "translation" : [
+                4.076245307922363,
+                5.903861999511719,
+                -1.0054539442062378
+            ]
+        },
+        {
+            "name" : "Camera",
+            "rotation" : [
+                0.483536034822464,
+                0.33687159419059753,
+                -0.20870360732078552,
+                0.7804827094078064
+            ],
+            "translation" : [
+                7.358891487121582,
+                4.958309173583984,
+                6.925790786743164
+            ]
+        },
+        {
+            "mesh" : 0,
+            "name" : "Aset_modular_medieval_M_ugywdfqdw_00_LOD0",
+            "rotation" : [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071067094802856
+            ],
+            "scale" : [
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582
+            ]
+        },
+        {
+            "mesh" : 1,
+            "name" : "Aset_modular_medieval_M_ugywdfqdw_01_LOD0",
+            "rotation" : [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071067094802856
+            ],
+            "scale" : [
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "name" : "Modular_Wooden_ugywdfqdw",
+            "normalTexture" : {
+                "index" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 1
+                },
+                "metallicFactor" : 0,
+                "metallicRoughnessTexture" : {
+                    "index" : 2
+                }
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Aset_modular_medieval_M_ugywdfqdw_00_LOD0",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3,
+                    "material" : 0
+                }
+            ]
+        },
+        {
+            "name" : "Aset_modular_medieval_M_ugywdfqdw_01_LOD0",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "indices" : 7,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        },
+        {
+            "sampler" : 0,
+            "source" : 1
+        },
+        {
+            "sampler" : 0,
+            "source" : 2
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/jpeg",
+            "name" : "ugywdfqdw_2K_Normal_LOD0",
+            "uri" : "textures/ugywdfqdw_2K_Normal_LOD0.jpg"
+        },
+        {
+            "mimeType" : "image/jpeg",
+            "name" : "ugywdfqdw_2K_Albedo",
+            "uri" : "textures/ugywdfqdw_2K_Albedo.jpg"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "ugywdfqdw_2K_Roughness",
+            "uri" : "textures/ugywdfqdw_2K_Roughness.png"
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 11617,
+            "max" : [
+                142.6475830078125,
+                -10.079556465148926,
+                -1.2689452171325684
+            ],
+            "min" : [
+                22.472583770751953,
+                -36.83919143676758,
+                -383.0098876953125
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 11617,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 11617,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 61188,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 14825,
+            "max" : [
+                252.8533172607422,
+                24.693614959716797,
+                0.03243561089038849
+            ],
+            "min" : [
+                -1.653679370880127,
+                -50.25216293334961,
+                -400.0005187988281
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 14825,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 14825,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5123,
+            "count" : 75822,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 139404,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 139404,
+            "byteOffset" : 139404
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 92936,
+            "byteOffset" : 278808
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 122376,
+            "byteOffset" : 371744
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 177900,
+            "byteOffset" : 494120
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 177900,
+            "byteOffset" : 672020
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 118600,
+            "byteOffset" : 849920
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 151644,
+            "byteOffset" : 968520
+        }
+    ],
+    "samplers" : [
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 1120164,
+            "uri" : "door.bin"
+        }
+    ]
+}
