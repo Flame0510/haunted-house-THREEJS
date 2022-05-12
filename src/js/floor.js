@@ -11,7 +11,7 @@ export const floor = ({ textureLoader, scene }) => {
   );
 
   const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(20, 20),
+    new THREE.PlaneGeometry(50, 50),
     new THREE.MeshStandardMaterial({
       map: grassColorTexture,
       aoMap: grassAmbientOcclusionTexture,
@@ -24,10 +24,10 @@ export const floor = ({ textureLoader, scene }) => {
     new THREE.Float32BufferAttribute(floor.geometry.attributes.uv.array, 2)
   );
 
-  grassColorTexture.repeat.set(8, 8);
-  grassAmbientOcclusionTexture.repeat.set(8, 8);
-  grassNormalTexture.repeat.set(8, 8);
-  grassRoughnessTexture.repeat.set(8, 8);
+  grassColorTexture.repeat.set(26, 26);
+  grassAmbientOcclusionTexture.repeat.set(26, 26);
+  grassNormalTexture.repeat.set(26, 26);
+  grassRoughnessTexture.repeat.set(26, 26);
 
   grassColorTexture.wrapS = THREE.RepeatWrapping;
   grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping;

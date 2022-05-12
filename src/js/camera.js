@@ -35,6 +35,8 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
 
   controls.enableZoom = false;
 
+  controls.rotateSpeed = 0.2;
+
   controls.minDistance = 5;
   controls.maxDistance = 12;
 
