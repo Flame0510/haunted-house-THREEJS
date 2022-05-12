@@ -87,9 +87,7 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
         duration: 1,
       });
 
-      domEvents.addEventListener(grave, "click", () => {
-        console.log(graveFloat);
-
+      const graveHandler = () => {
         graveFloat && (gravesArray[i].graveFloat = false);
 
         gsap
@@ -123,8 +121,14 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
         //graveFloat ? ghost.remove(grave) : ghost.attach(grave);
         //graveFloat ? graveFloatEnd.play() : graveFloatStart.play();
         graveFloat = !graveFloat;
+      };
 
-        //gravesArray[i].graveFloat = graveFloat;
+      domEvents.addEventListener(grave, "click", () => {
+        graveHandler();
+      });
+
+      domEvents.addEventListener(grave, "touchstart", () => {
+        graveHandler();
       });
 
       // Add to the graves container

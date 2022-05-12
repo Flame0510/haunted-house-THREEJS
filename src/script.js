@@ -75,7 +75,7 @@ floor({ textureLoader, scene });
  */
 lights({ gui, scene });
 
-//gui.destroy();
+gui.destroy();
 
 /**
  * Sizes
@@ -157,8 +157,7 @@ const tick = () => {
   camera.lookAt(ghost.position);
 
   gravesArray.map(({ grave, graveFloat }) => {
-    graveFloat &&
-      (grave.position.y = Math.sin(elapsedTime) / 10 + 0.5);
+    graveFloat && (grave.position.y = Math.sin(elapsedTime) / 10 + 0.5);
   });
 
   // Ghosts

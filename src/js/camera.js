@@ -49,12 +49,11 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
   ghost.attach(camera);
   //camera.lookAt(ghost.position);
 
-  controls.addEventListener("change", () => {
+  /* controls.addEventListener("change", () => {
     const vec = new Vector3();
     camera.getWorldDirection(vec);
     console.log(camera.rotation);
-    //camera.position.y = 2;
-  });
+  }); */
 
   controls.addEventListener("lock", () => console.log("LOCK"));
   controls.addEventListener("unlock", () => console.log("UNLOCK"));

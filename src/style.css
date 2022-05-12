@@ -49,6 +49,12 @@ body {
   left: 0;
 }
 
+@media (hover: hover) {
+  .page .controls {
+    display: none;
+  }
+}
+
 .page .controls .move-field {
   display: -webkit-box;
   display: -ms-flexbox;
