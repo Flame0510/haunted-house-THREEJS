@@ -18,6 +18,7 @@ import { ghosts } from "./js/ghosts.js";
 import { fog } from "./js/fog.js";
 
 import { createGhost } from "./js/ghost.js";
+import {  particlesSetup } from "./js/particles";
 
 var initializeDomEvents = require("threex-domevents");
 var THREEx = {};
@@ -69,6 +70,9 @@ manager.onLoad = function () {
 
 // Floor
 floor({ textureLoader, scene });
+
+// PARTICLES
+const particles = particlesSetup({ scene });
 
 /**
  * Lights
@@ -156,9 +160,13 @@ const tick = () => {
 
   camera.lookAt(ghost.position);
 
+  //GRAVE FLOATING
   gravesArray.map(({ grave, graveFloat }) => {
     graveFloat && (grave.position.y = Math.sin(elapsedTime) / 10 + 0.5);
   });
+
+  particles.rotation.y = elapsedTime * 0.01;
+  particles.rotation.z = elapsedTime * 0.01;
 
   // Ghosts
   const ghost1Angle = elapsedTime * 0.5;
