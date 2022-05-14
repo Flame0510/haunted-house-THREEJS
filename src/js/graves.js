@@ -55,12 +55,6 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
         graveFloat: false /* , gravePosition: { x, z } */,
       };
 
-      // glb.shadow.mapSize.width = 256;
-      // glb.shadow.mapSize.height = 256;
-      // glb.shadow.camera.far = 7;
-
-      //x > gravesArray[i - 1].gravePosition.x + 0.5 && (x += 0.5);
-
       // Position
       grave.position.set(x, -0.1, z);
 
@@ -75,17 +69,8 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
         g.material = graveMaterial;
       });
 
-      let graveFloat = false;
-
-      const graveFloatStart = gsap.timeline().to(grave.position, {
-        y: 1,
-        duration: 1,
-      });
-
-      const graveFloatEnd = gsap.timeline().to(grave.position, {
-        y: 0,
-        duration: 1,
-      });
+      gravesArray[i].graveFloat = Math.random() > 0.5 ? true : false;
+      let graveFloat = gravesArray[i].graveFloat;
 
       const graveHandler = () => {
         graveFloat && (gravesArray[i].graveFloat = false);
@@ -94,28 +79,12 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
           .timeline({
             onComplete: () => {
               gravesArray[i].graveFloat = graveFloat;
-
-              //ghost.attach(grave);
-
-              /* graveFloat &&
-                gsap
-                  .timeline({
-                    repeat,
-                  })
-                  .to(grave.position, {
-                    y: grave.position.y + 0.1,
-                    duration: 1,
-                  })
-                  .to(grave.position, {
-                    y: grave.position.y,
-                    duration: 1,
-                  }); */
             },
           })
           .to(grave.position, {
-            x: graveFloat ? grave.position.x : ghost.position.x,
+            //x: graveFloat ? grave.position.x : ghost.position.x,
             y: graveFloat ? 0 : 0.5,
-            z: graveFloat ? grave.position.z : ghost.position.z,
+            //z: graveFloat ? grave.position.z : ghost.position.z,
           });
 
         //graveFloat ? ghost.remove(grave) : ghost.attach(grave);

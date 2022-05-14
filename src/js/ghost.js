@@ -3,7 +3,7 @@ import * as THREE from "three";
 export let ghost;
 
 export const createGhost = ({ scene }) => {
-  ghost = new THREE.PointLight("#ffffff", 2, 3);
+  ghost = new THREE.PointLight("#0fffff", 2, 3);
   ghost.castShadow = true;
   scene.add(ghost);
 

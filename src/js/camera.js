@@ -3,13 +3,7 @@ import { Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
 
-import {
-  moveForward,
-  moveLeft,
-  moveBackward,
-  moveRight,
-  jump,
-} from "./controls";
+import { moveForward, moveLeft, moveBackward, moveRight } from "./controls";
 
 export let camera;
 export let controls;
@@ -21,9 +15,9 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
     0.1,
     100
   );
-  camera.position.x = 2;
+  camera.position.x = 0;
   camera.position.y = 2;
-  camera.position.z = 6;
+  camera.position.z = 8;
   scene.add(camera);
 
   // Controls
@@ -149,12 +143,6 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
   }); */
 
   document.addEventListener("keydown", onKeyDown, false);
-
-  //document.querySelector("#jump-btn").addEventListener("click", jump);
-
-  document
-    .querySelector("#jump-btn")
-    .addEventListener("click", () => controls.lock(), false);
 
   return camera;
 };
