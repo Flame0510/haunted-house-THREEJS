@@ -1,6 +1,13 @@
 import * as THREE from "three";
 
-export const walls = ({ textureLoader, house }) => {
+import { createBoxBody } from "./createBox";
+
+export const wallsSetup = ({
+  textureLoader,
+  house,
+  defaultMaterial,
+  world,
+}) => {
   const bricksColorTexture = textureLoader.load("/textures/wall/color.jpg");
   const bricksAmbientOcclusionTexture = textureLoader.load(
     "/textures/wall/ambientOcclusion.jpg"
@@ -41,6 +48,18 @@ export const walls = ({ textureLoader, house }) => {
   walls.position.y = 1.25;
 
   walls.castShadow = true;
-  
+
+  const wallsBody = createBoxBody(
+    4,
+    2.5,
+    4,
+    walls.position,
+    10,
+    defaultMaterial,
+    world
+  );
+
   house.add(walls);
+
+  return { walls, wallsBody };
 };

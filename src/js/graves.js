@@ -1,9 +1,21 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
+import CANNON from "cannon";
+
 import { ghost } from "./ghost.js";
 
-export const graves = ({ domEvents, textureLoader, loader, scene }) => {
+import { createBoxBody } from "./createBox";
+
+export const graves = ({
+  domEvents,
+  textureLoader,
+  loader,
+  ghostBody,
+  defaultMaterial,
+  world,
+  scene,
+}) => {
   const graves = new THREE.Group();
   scene.add(graves);
 
@@ -50,10 +62,9 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
     loader.load("/models/grave/grave.glb", (glb) => {
       const grave = glb.scene;
 
-      gravesArray[i] = {
-        grave,
-        graveFloat: false /* , gravePosition: { x, z } */,
-      };
+      gravesArray[i] = {};
+
+      gravesArray[i].grave = grave;
 
       // Position
       grave.position.set(x, -0.1, z);
@@ -61,7 +72,7 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
       grave.scale.set(0.012, 0.012, 0.012);
 
       // Rotation
-      grave.rotation.z = (Math.random() - 0.5) * 0.4;
+      grave.rotation.z = (Math.random() - 0.5) * 0.8;
       grave.rotation.y = (Math.random() - 0.5) * 0.4;
 
       grave.traverse((g) => {
@@ -69,36 +80,28 @@ export const graves = ({ domEvents, textureLoader, loader, scene }) => {
         g.material = graveMaterial;
       });
 
-      gravesArray[i].graveFloat = Math.random() > 0.5 ? true : false;
-      let graveFloat = gravesArray[i].graveFloat;
+      const body = createBoxBody(
+        0.8,
+        0.5,
+        0.6,
+        grave.position,
+        150000,
+        defaultMaterial,
+        world
+      );
 
-      const graveHandler = () => {
-        graveFloat && (gravesArray[i].graveFloat = false);
+      //body.sleep();
 
-        gsap
-          .timeline({
-            onComplete: () => {
-              gravesArray[i].graveFloat = graveFloat;
-            },
-          })
-          .to(grave.position, {
-            //x: graveFloat ? grave.position.x : ghost.position.x,
-            y: graveFloat ? 0 : 0.5,
-            //z: graveFloat ? grave.position.z : ghost.position.z,
-          });
+      /* body.addEventListener(
+        "collide",
+        ({ body }) =>
+          body === ghostBody &&
+          body.applyForce(new CANNON.Vec3(100, 10, 0), body.position
+      ); */
 
-        //graveFloat ? ghost.remove(grave) : ghost.attach(grave);
-        //graveFloat ? graveFloatEnd.play() : graveFloatStart.play();
-        graveFloat = !graveFloat;
-      };
+      gravesArray[i].body = body;
 
-      domEvents.addEventListener(grave, "click", () => {
-        graveHandler();
-      });
-
-      domEvents.addEventListener(grave, "touchstart", () => {
-        graveHandler();
-      });
+      gravesArray[i].floatHeight = Math.random() / 2;
 
       // Add to the graves container
       graves.add(grave);

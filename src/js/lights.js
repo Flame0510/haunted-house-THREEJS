@@ -1,13 +1,13 @@
 import * as THREE from "three";
 
-export const lights = ({ gui, scene }) => {
+export const lights = ({ intensity, gui, scene }) => {
   // Ambient light
-  const ambientLight = new THREE.AmbientLight("#b9d5ff", 0.12);
+  const ambientLight = new THREE.AmbientLight("#b9d5ff", intensity);
   gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
   scene.add(ambientLight);
 
   // Directional light
-  const moonLight = new THREE.DirectionalLight("#b9d5ff", 0.12);
+  const moonLight = new THREE.DirectionalLight("#b9d5ff", intensity);
   moonLight.position.set(4, 5, -2);
   gui.add(moonLight, "intensity").min(0).max(1).step(0.001);
   gui.add(moonLight.position, "x").min(-5).max(5).step(0.001);

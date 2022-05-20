@@ -1,24 +1,28 @@
 import "./style.css";
 import * as THREE from "three";
-import gsap from "gsap";
+import CANNON from "cannon";
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as dat from "lil-gui";
-import { RGBA_ASTC_10x10_Format } from "three";
 
 import { lights } from "./js/lights.js";
 import { cameraSetup } from "./js/camera.js";
 import { floor } from "./js/floor.js";
-import { walls } from "./js/walls.js";
+import { wallsSetuo, wallsSetup } from "./js/walls.js";
 import { roof } from "./js/roof.js";
 import { bushes } from "./js/bushes.js";
 import { graves } from "./js/graves.js";
 import { door } from "./js/door.js";
 import { ghosts } from "./js/ghosts.js";
 import { fog } from "./js/fog.js";
+import { bricksSetup } from "./js/bricks.js";
 
 import { createGhost } from "./js/ghost.js";
-import {  particlesSetup } from "./js/particles";
+import { particlesSetup } from "./js/particles";
+import { physicsSetup } from "./js/physics";
+
+import { createSphere } from "./js/createSphere";
+import { createBox } from "./js/createBox";
 
 var initializeDomEvents = require("threex-domevents");
 var THREEx = {};
@@ -77,7 +81,7 @@ const particles = particlesSetup({ scene });
 /**
  * Lights
  */
-lights({ gui, scene });
+lights({ intensity: 0.12, gui, scene });
 
 gui.destroy();
 
@@ -103,6 +107,20 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
+//PHYSICS
+const { defaultMaterial, plasticMaterial, world } = physicsSetup();
+
+const { body: ghostBody, mesh: ghostMesh } = createSphere(
+  0.8,
+  new THREE.Vector3(0, 0, 4),
+  100,
+  defaultMaterial,
+  world,
+  scene
+);
+
+scene.remove(ghostMesh);
+
 const ghost = createGhost({ scene });
 
 /**
@@ -115,6 +133,7 @@ const camera = cameraSetup({ ghost, sizes, canvas, scene });
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
+  antialiasing: true,
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
@@ -125,12 +144,63 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const domEvents = new THREEx.DomEvents(camera, canvas);
 
+const bricks = bricksSetup({
+  ghostBody,
+  textureLoader,
+  defaultMaterial,
+  world,
+  scene,
+});
+
+//boxes.map(({ body }) => body.sleep());
+
+/* [...Array(10)].map((_, i) => {
+  const { body, mesh: box } = createBox(
+    0.1,
+    0.1,
+    0.1,
+    new THREE.Vector3(i / 8, 0.3, 5),
+    0.1,
+    defaultMaterial,
+    world,
+    scene
+  );
+
+  boxes.push({ box, body });
+
+  body.sleep();
+});
+
+[...Array(10)].map((_, i) => {
+  const { body, mesh: box } = createBox(
+    0.1,
+    0.1,
+    0.1,
+    new THREE.Vector3(i / 8, 0.4, 5),
+    0.1,
+    defaultMaterial,
+    world,
+    scene
+  );
+
+  boxes.push({ box, body });
+
+  body.sleep();
+}); */
+
+//sphereBody2.applyLocalForce(new CANNON.Vec3(0,0,5), new CANNON.Vec3(0,0,0))
+
 //HOUSE
 const house = new THREE.Group();
 scene.add(house);
 
 //WALLS
-walls({ textureLoader, house });
+const { walls, wallsBody } = wallsSetup({
+  textureLoader,
+  house,
+  defaultMaterial,
+  world,
+});
 
 // Roof
 roof({ textureLoader, house });
@@ -142,7 +212,15 @@ door({ textureLoader, house });
 //bushes({ loader, scene });
 
 // Graves
-const gravesArray = graves({ domEvents, textureLoader, loader, scene });
+const gravesArray = graves({
+  domEvents,
+  textureLoader,
+  loader,
+  ghostBody,
+  defaultMaterial,
+  world,
+  scene,
+});
 
 // Ghosts
 const { ghost1, ghost2, ghost3 } = ghosts({ scene });
@@ -154,15 +232,66 @@ fog({ scene });
  * Animate
  */
 const clock = new THREE.Clock();
+let oldElapsedTime = 0;
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
+  const deltaTime = elapsedTime - oldElapsedTime;
+  oldElapsedTime = elapsedTime;
 
+  // Update physics
+  world.step(1 / 60, deltaTime, 3);
+
+  bricks.map(({ brick, brickBody }) => {
+    brick.position.copy(brickBody.position);
+    brick.quaternion.copy(brickBody.quaternion);
+
+    /* body.addEventListener("collide", () =>
+      body.applyForce(new CANNON.Vec3(0, 1, 0), body.position)
+    ); */
+  });
+
+  if (Math.cos(elapsedTime) && false) {
+    const { body: bbody, mesh: box } = createBox(
+      0.1,
+      0.1,
+      0.1,
+      new THREE.Vector3(ghost.position.x, 10, ghost.position.z),
+      0.1,
+      defaultMaterial,
+      world,
+      scene
+    );
+
+    boxes.push({ body: bbody, box });
+  }
+
+  //GHOST BODY
+  ghostMesh.position.copy(ghostBody.position);
+  ghostBody.sleep();
+
+  ghostBody.position.x = ghost.position.x;
+  ghostBody.position.y = 0;
+  ghostBody.position.z = ghost.position.z;
+
+  ghostBody.sleep();
+
+  //CAMERA LOOK
   camera.lookAt(ghost.position);
 
+  //WALL COLLISION
+  wallsBody.position.copy(walls.position);
+  wallsBody.quaternion.copy(walls.quaternion);
+
+  wallsBody.sleep();
+
   //GRAVE FLOATING
-  gravesArray.map(({ grave, graveFloat }) => {
-    graveFloat && (grave.position.y = Math.sin(elapsedTime) / 10 + 0.5);
+  gravesArray.map(({ grave, body, floatHeight }) => {
+    grave.position.copy(body.position);
+    grave.quaternion.copy(body.quaternion);
+
+    grave.position.y =
+      body.position.y + floatHeight + Math.sin(elapsedTime) / 10;
   });
 
   particles.rotation.y = elapsedTime * 0.01;
@@ -187,6 +316,7 @@ const tick = () => {
 
   // Render
   renderer.render(scene, camera);
+  renderer.setPixelRatio(devicePixelRatio);
 
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);
