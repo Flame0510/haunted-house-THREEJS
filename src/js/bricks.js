@@ -1,6 +1,10 @@
 import * as THREE from "three";
 import { createBox } from "./createBox";
 
+import { collisionFilterGroups } from "../environments";
+
+const { FLOOR, BRICKS, HOUSE, GHOST } = collisionFilterGroups;
+
 export const bricksSetup = ({
   ghostBody,
   textureLoader,
@@ -8,13 +12,13 @@ export const bricksSetup = ({
   world,
   scene,
 }) => {
-  const bricksColorTexture = textureLoader.load("/textures/rock/color.jpg");
+  const bricksColorTexture = textureLoader.load("/textures/bricks/color.jpg");
   const bricksAmbientOcclusionTexture = textureLoader.load(
-    "/textures/rock/ambientOcclusion.jpg"
+    "/textures/bricks/ambientOcclusion.jpg"
   );
-  const bricksNormalTexture = textureLoader.load("/textures/rock/normal.jpg");
+  const bricksNormalTexture = textureLoader.load("/textures/bricks/normal.jpg");
   const bricksRoughnessTexture = textureLoader.load(
-    "/textures/rock/roughness.jpg"
+    "/textures/bricks/roughness.jpg"
   );
 
   bricksColorTexture.repeat.set(0.1, 0.1);
@@ -39,15 +43,17 @@ export const bricksSetup = ({
     roughnessMap: bricksRoughnessTexture,
   });
 
-  const bricks = [...Array(400)].reduce((acc, _, i) => {
+  const bricks = [...Array(200)].reduce((acc, _, i) => {
     const { body: brickBody, mesh: brick } = createBox(
-      0.2,
-      0.1,
+      Math.random() * 0.3,
+      Math.random() * 0.3,
       0.05,
-      new THREE.Vector3(Math.random() * 20 - 10, 1, Math.random() * 20 - 10),
+      new THREE.Vector3(Math.random() * 15 - 10, 1, Math.random() * 15 - 10),
       100,
       defaultMaterial,
       brickMaterial,
+      GHOST,
+      FLOOR | BRICKS | HOUSE,
       world,
       scene
     );
@@ -64,6 +70,9 @@ export const bricksSetup = ({
     });
 
     acc.push({ brick, brickBody });
+
+    // world.remove(brickBody);
+    // scene.remove(brick);
 
     return acc;
   }, []);

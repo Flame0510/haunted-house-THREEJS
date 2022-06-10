@@ -7,6 +7,10 @@ import { ghost } from "./ghost.js";
 
 import { createBoxBody } from "./createBox";
 
+import { collisionFilterGroups } from "../environments";
+
+const { FLOOR, BRICKS, HOUSE, GHOST } = collisionFilterGroups;
+
 export const graves = ({
   domEvents,
   textureLoader,
@@ -85,8 +89,10 @@ export const graves = ({
         0.5,
         0.6,
         grave.position,
-        150000,
+        100000,
         defaultMaterial,
+        GHOST,
+        FLOOR | BRICKS,
         world
       );
 

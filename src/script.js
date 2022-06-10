@@ -16,6 +16,7 @@ import { door } from "./js/door.js";
 import { ghosts } from "./js/ghosts.js";
 import { fog } from "./js/fog.js";
 import { bricksSetup } from "./js/bricks.js";
+import { destructableWallSetup } from "./js/destructableWall";
 
 import { createGhost } from "./js/ghost.js";
 import { particlesSetup } from "./js/particles";
@@ -115,6 +116,8 @@ const { body: ghostBody, mesh: ghostMesh } = createSphere(
   new THREE.Vector3(0, 0, 4),
   100,
   defaultMaterial,
+  2,
+  4,
   world,
   scene
 );
@@ -126,7 +129,6 @@ const ghost = createGhost({ scene });
 /**
  * Camera
  */
-// Base camera
 const camera = cameraSetup({ ghost, sizes, canvas, scene });
 
 /**
@@ -152,43 +154,35 @@ const bricks = bricksSetup({
   scene,
 });
 
-//boxes.map(({ body }) => body.sleep());
+const destructableWalls = [];
 
-/* [...Array(10)].map((_, i) => {
-  const { body, mesh: box } = createBox(
-    0.1,
-    0.1,
-    0.1,
-    new THREE.Vector3(i / 8, 0.3, 5),
-    0.1,
+/* destructableWalls.push(
+  destructableWallSetup({
+    x: 3,
+    z: 3,
+    wallLenght: 6,
+    wallHeight: 5,
+    ghostBody,
+    textureLoader,
     defaultMaterial,
     world,
-    scene
-  );
+    scene,
+  })
+);
 
-  boxes.push({ box, body });
-
-  body.sleep();
-});
-
-[...Array(10)].map((_, i) => {
-  const { body, mesh: box } = createBox(
-    0.1,
-    0.1,
-    0.1,
-    new THREE.Vector3(i / 8, 0.4, 5),
-    0.1,
+destructableWalls.push(
+  destructableWallSetup({
+    x: -6,
+    z: 5,
+    wallLenght: 6,
+    wallHeight: 5,
+    ghostBody,
+    textureLoader,
     defaultMaterial,
     world,
-    scene
-  );
-
-  boxes.push({ box, body });
-
-  body.sleep();
-}); */
-
-//sphereBody2.applyLocalForce(new CANNON.Vec3(0,0,5), new CANNON.Vec3(0,0,0))
+    scene,
+  })
+); */
 
 //HOUSE
 const house = new THREE.Group();
@@ -203,7 +197,7 @@ const { walls, wallsBody } = wallsSetup({
 });
 
 // Roof
-roof({ textureLoader, house });
+//roof({ textureLoader, house });
 
 // Door
 door({ textureLoader, house });
@@ -250,31 +244,21 @@ const tick = () => {
       body.applyForce(new CANNON.Vec3(0, 1, 0), body.position)
     ); */
   });
-
-  if (Math.cos(elapsedTime) && false) {
-    const { body: bbody, mesh: box } = createBox(
-      0.1,
-      0.1,
-      0.1,
-      new THREE.Vector3(ghost.position.x, 10, ghost.position.z),
-      0.1,
-      defaultMaterial,
-      world,
-      scene
-    );
-
-    boxes.push({ body: bbody, box });
-  }
+  destructableWalls.map((destructableWall) =>
+    destructableWall.map(({ brick, brickBody }) => {
+      brick.position.copy(brickBody.position);
+      brick.quaternion.copy(brickBody.quaternion);
+    })
+  );
 
   //GHOST BODY
   ghostMesh.position.copy(ghostBody.position);
   ghostBody.sleep();
 
-  ghostBody.position.x = ghost.position.x;
-  ghostBody.position.y = 0;
-  ghostBody.position.z = ghost.position.z;
+  ghostBody.position.copy(ghost.position);
+  ghostBody.position.y = 0.2;
 
-  ghostBody.sleep();
+  //ghostBody.sleep();
 
   //CAMERA LOOK
   camera.lookAt(ghost.position);

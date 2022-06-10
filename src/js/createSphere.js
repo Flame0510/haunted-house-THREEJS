@@ -6,6 +6,8 @@ export const createSphere = (
   position,
   mass,
   material,
+  collisionFilterGroup,
+  collisionFilterMask,
   world,
   scene
 ) => {
@@ -22,12 +24,28 @@ export const createSphere = (
   mesh.position.copy(position);
   scene.add(mesh);
 
-  const body = createSphereBody(radius, position, mass, material, world);
+  const body = createSphereBody(
+    radius,
+    position,
+    mass,
+    material,
+    collisionFilterGroup,
+    collisionFilterMask,
+    world
+  );
 
   return { body, mesh };
 };
 
-const createSphereBody = (radius, position, mass, material, world) => {
+const createSphereBody = (
+  radius,
+  position,
+  mass,
+  material,
+  collisionFilterGroup,
+  collisionFilterMask,
+  world
+) => {
   // Cannon.js body
   const shape = new CANNON.Sphere(radius);
 
@@ -36,6 +54,8 @@ const createSphereBody = (radius, position, mass, material, world) => {
     position,
     shape,
     material,
+    collisionFilterGroup,
+    collisionFilterMask,
   });
   body.position.copy(position);
   world.addBody(body);

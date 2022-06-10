@@ -16,7 +16,7 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
     100
   );
   camera.position.x = 0;
-  camera.position.y = 2;
+  camera.position.y = 3;
   camera.position.z = 8;
   scene.add(camera);
 
@@ -34,8 +34,8 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
   controls.minDistance = 5;
   controls.maxDistance = 12;
 
-  controls.maxPolarAngle = 1.2;
-  controls.minPolarAngle = 1.2;
+  controls.maxPolarAngle = 1;
+  controls.minPolarAngle = 1;
 
   //controls.target.set(0, 0, 0);
 

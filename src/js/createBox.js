@@ -9,6 +9,8 @@ export const createBox = (
   mass,
   material,
   boxMaterial,
+  collisionFilterGroup,
+  collisionFilterMask,
   world,
   scene
 ) => {
@@ -28,6 +30,8 @@ export const createBox = (
     position,
     mass,
     material,
+    collisionFilterGroup,
+    collisionFilterMask,
     world
   );
 
@@ -41,6 +45,8 @@ export const createBoxBody = (
   position,
   mass,
   material,
+  collisionFilterGroup,
+  collisionFilterMask,
   world
 ) => {
   // Cannon.js body
@@ -53,6 +59,8 @@ export const createBoxBody = (
     position,
     shape,
     material,
+    collisionFilterGroup,
+    collisionFilterMask,
   });
 
   world.addBody(body);

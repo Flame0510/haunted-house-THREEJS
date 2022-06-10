@@ -2,6 +2,10 @@ import * as THREE from "three";
 
 import { createBoxBody } from "./createBox";
 
+import { collisionFilterGroups } from "../environments";
+
+const { FLOOR, BRICKS, HOUSE, GHOST } = collisionFilterGroups;
+
 export const wallsSetup = ({
   textureLoader,
   house,
@@ -56,6 +60,8 @@ export const wallsSetup = ({
     walls.position,
     10,
     defaultMaterial,
+    HOUSE,
+    FLOOR | BRICKS,
     world
   );
 

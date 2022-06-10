@@ -62,6 +62,8 @@ export const physicsSetup = () => {
   );
   floorBody.mass = 0;
   floorBody.material = defaultMaterial;
+  floorBody.collisionFilterGroup = 1;
+  floorBody.collisionFilterMask = 4;
   floorBody.addShape(floorShape);
   world.addBody(floorBody);
   //world.allowSleep = true;
