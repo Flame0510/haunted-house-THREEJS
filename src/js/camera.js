@@ -31,11 +31,8 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
 
   controls.rotateSpeed = 0.2;
 
-  controls.minDistance = 5;
-  controls.maxDistance = 12;
-
-  controls.maxPolarAngle = 1;
-  controls.minPolarAngle = 1;
+  controls.maxPolarAngle = 0.98;
+  controls.minPolarAngle = 0.98;
 
   //controls.target.set(0, 0, 0);
 

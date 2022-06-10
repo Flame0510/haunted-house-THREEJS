@@ -43,7 +43,7 @@ export const bricksSetup = ({
     roughnessMap: bricksRoughnessTexture,
   });
 
-  const bricks = [...Array(100)].reduce((acc, _, i) => {
+  const bricks = [...Array(300)].reduce((acc, _, i) => {
     const { body: brickBody, mesh: brick } = createBox(
       Math.random() * 0.3,
       Math.random() * 0.3,
