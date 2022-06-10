@@ -254,7 +254,7 @@ loader.load("/models/graveyard.glb", (glb) => {
 
       gravesArray[i].body = body;
 
-      gravesArray[i].floatHeight = Math.random() / 2;
+      gravesArray[i].floatHeight = Math.random() / 4;
       i++;
     }
   });
