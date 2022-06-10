@@ -23,7 +23,11 @@ import { particlesSetup } from "./js/particles";
 import { physicsSetup } from "./js/physics";
 
 import { createSphere } from "./js/createSphere";
-import { createBox } from "./js/createBox";
+import { createBox, createBoxBody } from "./js/createBox";
+
+import { collisionFilterGroups } from "./environments";
+
+const { FLOOR, BRICKS, HOUSE, GHOST } = collisionFilterGroups;
 
 var initializeDomEvents = require("threex-domevents");
 var THREEx = {};
@@ -200,13 +204,13 @@ const { walls, wallsBody } = wallsSetup({
 //roof({ textureLoader, house });
 
 // Door
-door({ textureLoader, house });
+//door({ textureLoader, house });
 
 // Bushes
 //bushes({ loader, scene });
 
 // Graves
-const gravesArray = graves({
+/* const gravesArray = graves({
   domEvents,
   textureLoader,
   loader,
@@ -214,7 +218,59 @@ const gravesArray = graves({
   defaultMaterial,
   world,
   scene,
+}); */
+
+const gravesArray = [];
+
+loader.load("/models/graveyard.glb", (glb) => {
+  const stoneWall = glb.scene;
+
+  stoneWall.position.set(0, 0, 0);
+  stoneWall.scale.set(2, 2, 2);
+
+  let i = 0;
+
+  stoneWall.traverse((el) => {
+    const { name, position } = el;
+
+    el.castShadow = true;
+
+    if (name.includes("grave")) {
+      gravesArray[i] = {};
+
+      gravesArray[i].grave = el;
+
+      const body = createBoxBody(
+        0.8,
+        0.5,
+        0.6,
+        position,
+        100000,
+        defaultMaterial,
+        GHOST,
+        FLOOR | BRICKS,
+        world
+      );
+
+      gravesArray[i].body = body;
+
+      gravesArray[i].floatHeight = Math.random() / 2;
+      i++;
+    }
+  });
+
+  console.log(gravesArray);
+
+  scene.add(stoneWall);
 });
+
+// Door light
+const doorLight = new THREE.PointLight("#ff7d46", 1, 7);
+doorLight.position.set(0, 2, 2);
+
+doorLight.castShadow = true;
+
+scene.add(doorLight);
 
 // Ghosts
 const { ghost1, ghost2, ghost3 } = ghosts({ scene });
@@ -272,7 +328,7 @@ const tick = () => {
   //GRAVE FLOATING
   gravesArray.map(({ grave, body, floatHeight }) => {
     grave.position.copy(body.position);
-    grave.quaternion.copy(body.quaternion);
+    //grave.quaternion.copy(body.quaternion);
 
     grave.position.y =
       body.position.y + floatHeight + Math.sin(elapsedTime) / 10;

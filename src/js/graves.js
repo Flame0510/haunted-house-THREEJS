@@ -110,7 +110,7 @@ export const graves = ({
       gravesArray[i].floatHeight = Math.random() / 2;
 
       // Add to the graves container
-      graves.add(grave);
+      //graves.add(grave);
     });
   }
 

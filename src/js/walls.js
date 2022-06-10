@@ -65,7 +65,7 @@ export const wallsSetup = ({
     world
   );
 
-  house.add(walls);
+  //house.add(walls);
 
   return { walls, wallsBody };
 };

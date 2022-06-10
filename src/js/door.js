@@ -44,9 +44,5 @@ export const door = ({ textureLoader, house }) => {
 
   doorLight.castShadow = true;
 
-  /* doorLight.shadow.mapSize.width = 256;
-  doorLight.shadow.mapSize.height = 256;
-  doorLight.shadow.camera.far = 7; */
-
   house.add(doorLight);
 };
