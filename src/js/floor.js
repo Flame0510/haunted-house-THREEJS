@@ -1,13 +1,13 @@
 import * as THREE from "three";
 
 export const floor = ({ textureLoader, scene }) => {
-  const grassColorTexture = textureLoader.load("/textures/rock/color.jpg");
+  const grassColorTexture = textureLoader.load("textures/rock/color.jpg");
   const grassAmbientOcclusionTexture = textureLoader.load(
-    "/textures/rock/ambientOcclusion.jpg"
+    "textures/rock/ambientOcclusion.jpg"
   );
-  const grassNormalTexture = textureLoader.load("/textures/rock/normal.jpg");
+  const grassNormalTexture = textureLoader.load("textures/rock/normal.jpg");
   const grassRoughnessTexture = textureLoader.load(
-    "/textures/rock/roughness.jpg"
+    "textures/rock/roughness.jpg"
   );
 
   const floor = new THREE.Mesh(

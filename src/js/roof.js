@@ -1,11 +1,11 @@
 import * as THREE from "three";
 
 export const roof = ({ textureLoader, house }) => {
-  const roofColorTexture = textureLoader.load("/textures/roof/color.jpg");
+  const roofColorTexture = textureLoader.load("textures/roof/color.jpg");
   const roofAmbientOcclusionTexture = textureLoader.load(
     "/textures/roof/ambientOcclusion.jpg"
   );
-  const roofNormalTexture = textureLoader.load("/textures/roof/normal.jpg");
+  const roofNormalTexture = textureLoader.load("textures/roof/normal.jpg");
   const roofRoughnessTexture = textureLoader.load(
     "/textures/roof/roughness.jpg"
   );

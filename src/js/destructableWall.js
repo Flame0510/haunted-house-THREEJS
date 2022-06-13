@@ -16,11 +16,11 @@ export const destructableWallSetup = ({
   world,
   scene,
 }) => {
-  const bricksColorTexture = textureLoader.load("/textures/bricks/color.jpg");
+  const bricksColorTexture = textureLoader.load("textures/bricks/color.jpg");
   const bricksAmbientOcclusionTexture = textureLoader.load(
     "/textures/bricks/ambientOcclusion.jpg"
   );
-  const bricksNormalTexture = textureLoader.load("/textures/bricks/normal.jpg");
+  const bricksNormalTexture = textureLoader.load("textures/bricks/normal.jpg");
   const bricksRoughnessTexture = textureLoader.load(
     "/textures/bricks/roughness.jpg"
   );

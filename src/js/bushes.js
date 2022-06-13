@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 export const bushes = ({ loader, scene }) => {
-  /* loader.load("/models/plant.glb", (glb) => {
+  /* loader.load("models/plant.glb", (glb) => {
       const plant = glb.scene;
     
       plant.scale.set(1, 1, 1);
@@ -10,7 +10,7 @@ export const bushes = ({ loader, scene }) => {
       house.add(plant);
     });
     
-    loader.load("/models/plant_c.glb", (glb) => {
+    loader.load("models/plant_c.glb", (glb) => {
       const plant = glb.scene;
     
       plant.scale.set(2, 2, 2);
@@ -19,7 +19,7 @@ export const bushes = ({ loader, scene }) => {
       house.add(plant);
     });
     
-    loader.load("/models/plant_c.glb", (glb) => {
+    loader.load("models/plant_c.glb", (glb) => {
       const plant = glb.scene;
     
       plant.scale.set(1.2, 1.2, 1.2);
@@ -28,7 +28,7 @@ export const bushes = ({ loader, scene }) => {
       house.add(plant);
     });
     
-    loader.load("/models/plant_c.glb", (glb) => {
+    loader.load("models/plant_c.glb", (glb) => {
       const plant = glb.scene;
     
       plant.scale.set(1.2, 1.2, 1.2);
@@ -52,7 +52,7 @@ export const bushes = ({ loader, scene }) => {
     house.add(bush1, bush2, bush3, bush4); */
 
   for (let p = 0; p < 50; p++) {
-    loader.load("/models/plant.glb", (glb) => {
+    loader.load("models/plant.glb", (glb) => {
       const plant = glb.scene;
 
       const angle = Math.random() * Math.PI * 2; // Random angle

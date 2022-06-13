@@ -222,7 +222,7 @@ const { walls, wallsBody } = wallsSetup({
 
 const gravesArray = [];
 
-loader.load("/models/graveyard.glb", (glb) => {
+loader.load("models/graveyard.glb", (glb) => {
   const stoneWall = glb.scene;
 
   stoneWall.position.set(0, 0, 0);
@@ -258,8 +258,6 @@ loader.load("/models/graveyard.glb", (glb) => {
       i++;
     }
   });
-
-  console.log(gravesArray);
 
   scene.add(stoneWall);
 });

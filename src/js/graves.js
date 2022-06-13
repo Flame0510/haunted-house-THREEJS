@@ -23,8 +23,8 @@ export const graves = ({
   const graves = new THREE.Group();
   scene.add(graves);
 
-  const gravesColorTexture = textureLoader.load("/models/grave/color.jpg");
-  const gravesNormalTexture = textureLoader.load("/models/grave/normal.jpg");
+  const gravesColorTexture = textureLoader.load("models/grave/color.jpg");
+  const gravesNormalTexture = textureLoader.load("models/grave/normal.jpg");
   const gravesRoughnessTexture = textureLoader.load(
     "/models/grave/roughness.jpg"
   );
@@ -44,7 +44,7 @@ export const graves = ({
   const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2);
   const graveMaterial = new THREE.MeshStandardMaterial({
     map: gravesColorTexture,
-    //aoMap: textureLoader.load("/models/grave/color"),
+    //aoMap: textureLoader.load("models/grave/color"),
     normalMap: gravesNormalTexture,
     roughnessMap: gravesRoughnessTexture,
   });
@@ -63,7 +63,7 @@ export const graves = ({
       } */
 
     // Create the mesh
-    loader.load("/models/grave/grave.glb", (glb) => {
+    loader.load("models/grave/grave.glb", (glb) => {
       const grave = glb.scene;
 
       gravesArray[i] = {};

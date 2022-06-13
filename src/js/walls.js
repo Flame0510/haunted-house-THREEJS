@@ -12,13 +12,13 @@ export const wallsSetup = ({
   defaultMaterial,
   world,
 }) => {
-  const bricksColorTexture = textureLoader.load("/textures/wall/color.jpg");
+  const bricksColorTexture = textureLoader.load("textures/wall/color.jpg");
   const bricksAmbientOcclusionTexture = textureLoader.load(
-    "/textures/wall/ambientOcclusion.jpg"
+    "textures/wall/ambientOcclusion.jpg"
   );
-  const bricksNormalTexture = textureLoader.load("/textures/wall/normal.jpg");
+  const bricksNormalTexture = textureLoader.load("textures/wall/normal.jpg");
   const bricksRoughnessTexture = textureLoader.load(
-    "/textures/wall/roughness.jpg"
+    "textures/wall/roughness.jpg"
   );
 
   bricksColorTexture.repeat.set(1.5, 1.5);
