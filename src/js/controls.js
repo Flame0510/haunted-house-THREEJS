@@ -4,50 +4,50 @@ import gsap from "gsap";
 import { camera, controls } from "./camera.js";
 import { ghost } from "./ghost.js";
 
-export const moveForward = () => {
+export const moveForward = (velocity = 1) => {
   let direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
 
   gsap.to(ghost.position, {
-    x: ghost.position.x + 1 * direction.x,
-    z: ghost.position.z + 1 * direction.z,
+    x: ghost.position.x + velocity * direction.x,
+    z: ghost.position.z + velocity * direction.z,
   });
 
-  //controls.moveForward(1);
-  //controls.target.z = controls.target.z - 1;
+  //controls.moveForward(velocity);
+  //controls.target.z = controls.target.z - velocity;
 };
 
-export const moveLeft = () => {
+export const moveLeft = (velocity = 1) => {
   let direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
 
   gsap.to(ghost.position, {
-    x: ghost.position.x + 1 * direction.z,
-    z: ghost.position.z - 1 * direction.x,
+    x: ghost.position.x + velocity * direction.z,
+    z: ghost.position.z - velocity * direction.x,
   });
 
-  //controls.target.x = controls.target.x - 1;
+  //controls.target.x = controls.target.x - velocity;
 };
 
-export const moveBackward = () => {
+export const moveBackward = (velocity = 1) => {
   let direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
 
   gsap.to(ghost.position, {
-    x: ghost.position.x - 1 * direction.x,
-    z: ghost.position.z - 1 * direction.z,
+    x: ghost.position.x - velocity * direction.x,
+    z: ghost.position.z - velocity * direction.z,
   });
 
-  //controls.target.z = controls.target.z + 1;
+  //controls.target.z = controls.target.z + velocity;
 };
 
-export const moveRight = () => {
+export const moveRight = (velocity = 1) => {
   let direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
 
   gsap.to(ghost.position, {
-    x: ghost.position.x - 1 * direction.z,
-    z: ghost.position.z + 1 * direction.x,
+    x: ghost.position.x - velocity * direction.z,
+    z: ghost.position.z + velocity * direction.x,
   });
 
   //controls.target.x = controls.target.x + 1;

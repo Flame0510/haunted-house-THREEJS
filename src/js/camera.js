@@ -66,27 +66,39 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
   moveField.addEventListener("touchmove", ({ targetTouches }) => {
     controlPad.style.position = "absolute";
 
-    const bottom = window.innerHeight - targetTouches[0].clientY;
-    const left = targetTouches[0].clientX - controlPad.style.width / 2;
-
     const moveFieldSize = 120;
+
+    const bottom =
+      window.innerHeight -
+      targetTouches[0].clientY -
+      moveFieldSize / 4 +
+      controlPad.style.width / 2;
+    const left =
+      targetTouches[0].clientX -
+      window.innerWidth / 2 +
+      moveFieldSize / 2 +
+      controlPad.style.width / 2;
 
     const controlPadY =
       bottom > moveFieldSize ? moveFieldSize : bottom <= 0 ? 0 : bottom;
     const controlPadX =
       left > moveFieldSize ? moveFieldSize : left <= 0 ? 0 : left;
 
-    console.log(controlPadY);
-
     controlPad.style.bottom = controlPadY + "px";
     controlPad.style.left = controlPadX + "px";
 
-    controls.moveForward((touchStart.y - targetTouches[0].clientY) / 1000);
-    controls.moveRight(((touchStart.x - targetTouches[0].clientX) / 1000) * -1);
+    // controls.moveForward((touchStart.y - targetTouches[0].clientY) / 1000);
+    // controls.moveRight(((touchStart.x - targetTouches[0].clientX) / 1000) * -1);
 
     /*  controls.moveForward(
         targetTouches[0].clientY > moveFieldSize / 2 ? 0.1 : -0.1
       ); */
+
+    controlPadY > moveFieldSize / 2 ? moveForward(0.2) : moveBackward(0.2);
+
+    controlPadX > moveFieldSize / 2 + 30
+      ? moveRight(0.2)
+      : controlPadX > moveFieldSize / 2 - 30 && moveLeft(0.2);
   });
 
   moveField.addEventListener(
