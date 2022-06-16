@@ -6,6 +6,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as dat from "lil-gui";
 
 import { lights } from "./js/lights.js";
+import { move } from "./js/controls.js";
+import { controlPad } from "./js/controlPad.js";
 import { cameraSetup } from "./js/camera.js";
 import { floor } from "./js/floor.js";
 import { wallsSetuo, wallsSetup } from "./js/walls.js";
@@ -286,6 +288,28 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - oldElapsedTime;
   oldElapsedTime = elapsedTime;
+
+  //CONTROL PAD
+  if (controlPad.style.position === "absolute") {
+    const moveFieldSize = 120;
+
+    const controlPadStyle = controlPad.style;
+
+    const controlPadY = controlPadStyle.bottom.substring(
+      0,
+      controlPadStyle.bottom.indexOf("px")
+    );
+
+    const controlPadX = controlPadStyle.left.substring(
+      0,
+      controlPad.style.left.indexOf("px")
+    );
+
+    move(
+      (controlPadY - moveFieldSize / 2) / (moveFieldSize / 2) / 2,
+      -(controlPadX - moveFieldSize / 2) / (moveFieldSize / 2) / 2
+    );
+  }
 
   // Update physics
   world.step(1 / 60, deltaTime, 3);
