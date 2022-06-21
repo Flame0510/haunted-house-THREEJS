@@ -24,6 +24,8 @@ import { createGhost } from "./js/ghost.js";
 import { particlesSetup } from "./js/particles";
 import { physicsSetup } from "./js/physics";
 
+import { loaderSetup } from "./js/loader.js";
+
 import { createSphere } from "./js/createSphere";
 import { createBox, createBoxBody } from "./js/createBox";
 
@@ -47,8 +49,8 @@ const canvas = document.querySelector(".webgl");
 // Scene
 const scene = new THREE.Scene();
 
-//LOADER MANAGER
-const manager = new THREE.LoadingManager();
+//Loader
+loaderSetup();
 
 //GLTFLoader
 const loader = new GLTFLoader();
@@ -57,23 +59,6 @@ const loader = new GLTFLoader();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
-
-manager.onStart = function (url, itemsLoaded, itemsTotal) {
-  console.log("start");
-};
-
-manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-  console.log("%");
-
-  document.querySelector(".loader h1").innerHTML =
-    "ITEMS LOADED: " + itemsLoaded + "/" + itemsTotal;
-};
-
-manager.onLoad = function () {
-  console.log("FINISH");
-
-  document.querySelector(".loader").style.display = "none";
-};
 
 /**
  * House
