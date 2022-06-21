@@ -24,10 +24,10 @@ export const floor = ({ textureLoader, scene }) => {
     new THREE.Float32BufferAttribute(floor.geometry.attributes.uv.array, 2)
   );
 
-  grassColorTexture.repeat.set(26, 26);
-  grassAmbientOcclusionTexture.repeat.set(26, 26);
-  grassNormalTexture.repeat.set(26, 26);
-  grassRoughnessTexture.repeat.set(26, 26);
+  grassColorTexture.repeat.set(42, 42);
+  grassAmbientOcclusionTexture.repeat.set(42, 42);
+  grassNormalTexture.repeat.set(42, 42);
+  grassRoughnessTexture.repeat.set(42, 42);
 
   grassColorTexture.wrapS = THREE.RepeatWrapping;
   grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping;

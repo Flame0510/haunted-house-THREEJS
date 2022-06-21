@@ -20,6 +20,7 @@ export const createBox = (
     boxMaterial
   );
   mesh.castShadow = true;
+
   mesh.position.copy(position);
   scene.add(mesh);
 

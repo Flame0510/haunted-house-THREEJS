@@ -111,7 +111,7 @@ window.addEventListener("resize", () => {
 
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(window.devicePixelRatio * 0.5);
 });
 
 //PHYSICS
@@ -141,14 +141,16 @@ const camera = cameraSetup({ ghost, sizes, canvas, scene });
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-  antialiasing: true,
+  powerPreference: "high-performance",
+  antialiasing: false,
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 0.5));
 renderer.setClearColor("#262837");
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+//renderer.shadowMap.type = THREE.PCFShadowMap;
+renderer.physicallyCorrectLights = true;
 
 const domEvents = new THREEx.DomEvents(camera, canvas);
 
@@ -268,7 +270,7 @@ loader.load("models/graveyard.glb", (glb) => {
 const doorLight = new THREE.PointLight("#ff7d46", 1, 7);
 doorLight.position.set(0, 2, 2);
 
-doorLight.castShadow = true;
+doorLight.castShadow = false;
 
 scene.add(doorLight);
 
