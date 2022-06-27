@@ -50,15 +50,15 @@ const canvas = document.querySelector(".webgl");
 const scene = new THREE.Scene();
 
 //Loader
-loaderSetup();
+const manager = loaderSetup();
 
 //GLTFLoader
-const loader = new GLTFLoader();
+const loader = new GLTFLoader(manager);
 
 /**
  * Textures
  */
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader(manager);
 
 /**
  * House
@@ -135,7 +135,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 0.5));
 renderer.setClearColor("#262837");
 renderer.shadowMap.enabled = true;
 //renderer.shadowMap.type = THREE.PCFShadowMap;
-renderer.physicallyCorrectLights = true;
+//renderer.physicallyCorrectLights = true;
 
 const domEvents = new THREEx.DomEvents(camera, canvas);
 

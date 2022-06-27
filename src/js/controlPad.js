@@ -1,9 +1,16 @@
 const moveField = document.querySelector("#move-field");
 export const controlPad = document.querySelector("#control-pad");
 
-const getControlPadXY = (controlPad, touchX, touchY, moveFieldSize) => {
+const getControlPadXY = (
+  controlPad,
+  touchX,
+  touchY,
+  moveFieldSize,
+  bottomSpace
+) => {
   const bottom =
     window.innerHeight -
+    bottomSpace -
     touchY -
     moveFieldSize / 4 +
     controlPad.style.width / 2;
@@ -12,6 +19,8 @@ const getControlPadXY = (controlPad, touchX, touchY, moveFieldSize) => {
     window.innerWidth / 2 +
     moveFieldSize / 2 +
     controlPad.style.width / 2;
+
+  console.log(bottomSpace);
 
   const controlPadY =
     bottom > moveFieldSize ? moveFieldSize : bottom <= 0 ? 0 : bottom;
@@ -33,11 +42,14 @@ moveField.addEventListener("touchmove", ({ targetTouches }) => {
 
   const moveFieldSize = 120;
 
+  const bottomSpace = 55;
+
   const { controlPadY, controlPadX } = getControlPadXY(
     controlPad,
     clientX,
     clientY,
-    moveFieldSize
+    moveFieldSize,
+    bottomSpace
   );
 
   controlPad.style.bottom = controlPadY + "px";

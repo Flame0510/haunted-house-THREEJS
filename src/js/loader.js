@@ -1,26 +1,71 @@
 import * as THREE from "three";
+import gsap from "gsap";
 
 export const loaderSetup = () => {
+  const showLoader = () => {
+    gsap
+      .timeline()
+      .to(".loader-container", {
+        opacity: 1,
+        duration: 1,
+      })
+      .to(".bottom-right-text", {
+        opacity: 1,
+        duration: 1,
+      });
+  };
+
+  const hideLoader = () => {
+    //startAnimation();
+
+    gsap
+      .timeline()
+      .to(".loader-container", {
+        opacity: 0,
+        duration: 1,
+      })
+      .to(".loader", {
+        display: "none",
+        opacity: 0,
+        duration: 1,
+      });
+  };
+
   //LOADER MANAGER
   const manager = new THREE.LoadingManager();
+  const progressBar = document.querySelector(".progress-bar");
+  const progressBarText = document.querySelector(".progress-bar-text");
 
-  console.log(manager);
+  let progressBarValue = 5;
+
+  let loaderInterval;
 
   manager.onStart = (url, itemsLoaded, itemsTotal) => {
-    console.log("start");
+    showLoader();
+
+    loaderInterval = setInterval(() => {
+      //progressBarValue <= 99 && (progressBarValue += 1);
+
+      progressBarValue > 100 && (progressBarValue = 100);
+
+      progressBar.style.width = `${progressBarValue}%`;
+      progressBarText.innerHTML = `${progressBarValue} %`;
+    }, 500);
   };
 
   manager.onProgress = (url, itemsLoaded, itemsTotal) => {
-    console.log("%");
+    let percentage = ((itemsLoaded * 100) / itemsTotal).toFixed(0);
 
-    document.querySelector(".loader h1").innerHTML =
-      "ITEMS LOADED: " + itemsLoaded + "/" + itemsTotal;
+    progressBarValue = percentage;
   };
 
   manager.onLoad = () => {
-    console.log("FINISH");
+    progressBarValue = 100;
 
-    document.querySelector(".loader").style.display = "none";
+    setTimeout(() => {
+      hideLoader();
+      clearInterval(loaderInterval);
+    }, 1000);
   };
 
   return manager;

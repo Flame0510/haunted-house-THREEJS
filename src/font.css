@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "DemonSker";
+  src: url("./fonts/DemonSker/DemonSker.svg#DemonSker") format("svg"),
+    url("./fonts/DemonSker/DemonSker.ttf") format("truetype"),
+    url("./fonts/DemonSker/DemonSker.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
