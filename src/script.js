@@ -134,8 +134,14 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 0.5));
 renderer.setClearColor("#262837");
 renderer.shadowMap.enabled = true;
+
 //renderer.shadowMap.type = THREE.PCFShadowMap;
 //renderer.physicallyCorrectLights = true;
+
+/* document.querySelector("#toggle-shadow-btn").addEventListener("click", () => {
+  renderer.shadowMap.enabled = !renderer.shadowMap.enabled;
+  renderer.clear();
+}); */
 
 const domEvents = new THREEx.DomEvents(camera, canvas);
 

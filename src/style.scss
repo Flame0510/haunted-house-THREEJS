@@ -49,12 +49,12 @@ body {
 
         text-align: center;
 
-        font-size: rem(80);
+        font-size: rem(48);
 
         padding: rem(8);
 
-        @media screen and (max-width: 768px) {
-          font-size: rem(48);
+        @media screen and (min-width: 768px) {
+          font-size: rem(80);
         }
       }
 
@@ -95,19 +95,38 @@ body {
     }
   }
 
-  .title {
-    display: block;
+  .top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     width: 100%;
-    color: #fff;
 
-    text-align: center;
-
-    padding-top: rem(16);
+    margin-top: rem(16);
 
     position: absolute;
     top: 0;
     left: 0;
+
+    .title {
+      margin: 0 rem(16);
+
+      color: #fff;
+
+      text-align: center;
+    }
+
+    .toggle-shadow-btn {
+      margin: 0 rem(16);
+
+      color: #000;
+      background: #fff;
+
+      padding: rem(8);
+
+      border: none;
+      border-radius: 4px;
+    }
   }
 
   .help {
@@ -133,13 +152,13 @@ body {
     }
 
     .help-keyboard-buttons-container {
-      display: flex;
-      justify-content: center;
+      display: none;
 
-      flex-wrap: wrap;
+      @media screen and (hover: hover) {
+        display: flex;
+        justify-content: center;
 
-      @media screen and (max-width: 768px) {
-        display: none;
+        flex-wrap: wrap;
       }
 
       .help-keyboard-button {
@@ -167,7 +186,7 @@ body {
   .bottom-right-text {
     color: #fff;
 
-    font-size: rem(24);
+    font-size: rem(16);
 
     text-decoration: none;
 
@@ -181,8 +200,8 @@ body {
 
     z-index: 1;
 
-    @media screen and (max-width: 768px) {
-      font-size: rem(16);
+    @media screen and (min-width: 768px) {
+      font-size: rem(24);
     }
   }
 
