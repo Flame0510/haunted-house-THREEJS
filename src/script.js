@@ -131,7 +131,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 0.5));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor("#262837");
 renderer.shadowMap.enabled = true;
 
@@ -218,14 +218,14 @@ const { walls, wallsBody } = wallsSetup({
 const gravesArray = [];
 
 loader.load("models/graveyard.glb", (glb) => {
-  const stoneWall = glb.scene;
+  const graveyard = glb.scene;
 
-  stoneWall.position.set(0, 0, 0);
-  stoneWall.scale.set(2, 2, 2);
+  graveyard.position.set(0, 0, 0);
+  graveyard.scale.set(2, 2, 2);
 
   let i = 0;
 
-  stoneWall.traverse((el) => {
+  graveyard.traverse((el) => {
     const { name, position } = el;
 
     el.castShadow = true;
@@ -254,7 +254,7 @@ loader.load("models/graveyard.glb", (glb) => {
     }
   });
 
-  scene.add(stoneWall);
+  scene.add(graveyard);
 });
 
 // Door light
@@ -277,10 +277,48 @@ fog({ scene });
 const clock = new THREE.Clock();
 let oldElapsedTime = 0;
 
+let lastCalledTime = 0;
+let fps = 0;
+
+let counterFPS = [0];
+
+const calculateFPS = () => {
+  const elapsedTime = clock.getElapsedTime();
+
+  //console.log(counterFPS);
+
+  if (document.querySelector(".loader").style.display === "none") {
+    if (!lastCalledTime) {
+      lastCalledTime = Date.now();
+      fps = 0;
+      return;
+    }
+
+    //console.log(lastCalledTime);
+
+    let delta = (Date.now() - lastCalledTime) / 1000;
+    lastCalledTime = Date.now();
+    fps = 1 / delta;
+    counterFPS.push(Math.round(fps));
+
+    //console.log(fps);
+
+    const sumAllFPS = counterFPS.reduce((count, value) => count + value, 0);
+    const averageFPS = (sumAllFPS / counterFPS.length).toFixed(2);
+
+    document.querySelector("#fps-counter").innerHTML = averageFPS;
+    console.log(averageFPS);
+
+    ghost.castShadow = averageFPS > 20;
+  }
+};
+
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - oldElapsedTime;
   oldElapsedTime = elapsedTime;
+
+  calculateFPS();
 
   //CONTROL PAD
   if (controlPad.style.position === "absolute") {

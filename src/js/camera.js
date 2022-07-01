@@ -51,8 +51,6 @@ export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
   controls.addEventListener("lock", () => console.log("LOCK"));
   controls.addEventListener("unlock", () => console.log("UNLOCK"));
 
-  
-
   const onKeyDown = function (event) {
     switch (true) {
       case event.code === "KeyW" || event.code === "ArrowUp":

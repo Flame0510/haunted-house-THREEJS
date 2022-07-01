@@ -17,6 +17,10 @@ body {
   outline: none;
 }
 
+.webgl {
+  cursor: grab;
+}
+
 .page {
   .loader {
     width: 100%;
@@ -109,6 +113,7 @@ body {
     left: 0;
 
     .title {
+      width: 100%;
       margin: 0 rem(16);
 
       color: #fff;
@@ -116,7 +121,14 @@ body {
       text-align: center;
     }
 
+    #fps-counter {
+      display: none;
+      color: #fff;
+      font-size: 32px;
+    }
+
     .toggle-shadow-btn {
+      display: none;
       margin: 0 rem(16);
 
       color: #000;
