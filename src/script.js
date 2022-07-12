@@ -252,6 +252,8 @@ loader.load("models/graveyard.glb", (glb) => {
 
       gravesArray[i].floatHeight = Math.random() / 4;
       i++;
+    } else if (name.includes("place")) {
+      el.castShadow = false;
     }
   });
 
