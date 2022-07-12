@@ -1,5 +1,6 @@
 import "./style.scss";
 import * as THREE from "three";
+import gsap from "gsap";
 import CANNON from "cannon";
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -10,13 +11,13 @@ import { move } from "./js/controls.js";
 import { controlPad } from "./js/controlPad.js";
 import { cameraSetup } from "./js/camera.js";
 import { floor } from "./js/floor.js";
-import { wallsSetuo, wallsSetup } from "./js/walls.js";
+import { wallsSetup } from "./js/walls.js";
 import { roof } from "./js/roof.js";
 import { bushes } from "./js/bushes.js";
 import { graves } from "./js/graves.js";
 import { door } from "./js/door.js";
 import { ghosts } from "./js/ghosts.js";
-import { fog } from "./js/fog.js";
+import { fogSetup } from "./js/fog.js";
 import { bricksSetup } from "./js/bricks.js";
 import { destructableWallSetup } from "./js/destructableWall";
 
@@ -269,7 +270,7 @@ scene.add(doorLight);
 const { ghost1, ghost2, ghost3 } = ghosts({ scene });
 
 // FOG
-fog({ scene });
+export const fog = fogSetup({ scene });
 
 /**
  * Animate
@@ -307,7 +308,7 @@ const calculateFPS = () => {
     const averageFPS = (sumAllFPS / counterFPS.length).toFixed(2);
 
     document.querySelector("#fps-counter").innerHTML = averageFPS;
-    console.log(averageFPS);
+    //console.log(averageFPS);
 
     ghost.castShadow = averageFPS > 20;
   }
@@ -373,10 +374,10 @@ const tick = () => {
   camera.lookAt(ghost.position);
 
   //WALL COLLISION
-  wallsBody.position.copy(walls.position);
-  wallsBody.quaternion.copy(walls.quaternion);
+  // wallsBody.position.copy(walls.position);
+  // wallsBody.quaternion.copy(walls.quaternion);
 
-  wallsBody.sleep();
+  // wallsBody.sleep();
 
   //GRAVE FLOATING
   gravesArray.map(({ grave, body, floatHeight }) => {

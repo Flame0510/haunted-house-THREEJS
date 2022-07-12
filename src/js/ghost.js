@@ -21,6 +21,8 @@ export const createGhost = ({ scene }) => {
       : "Show Shadows";
   });
 
+  
+
   scene.add(ghost);
 
   return ghost;

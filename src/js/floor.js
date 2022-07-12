@@ -11,7 +11,7 @@ export const floor = ({ textureLoader, scene }) => {
   );
 
   const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(50, 50),
+    new THREE.PlaneGeometry(80, 80),
     new THREE.MeshStandardMaterial({
       map: grassColorTexture,
       aoMap: grassAmbientOcclusionTexture,
