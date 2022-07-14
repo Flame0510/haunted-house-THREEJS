@@ -7,6 +7,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as dat from "lil-gui";
 
 import { lights } from "./js/lights.js";
+import { soundsSetup } from "./js/sounds.js";
 import { move } from "./js/controls.js";
 import { controlPad } from "./js/controlPad.js";
 import { cameraSetup } from "./js/camera.js";
@@ -60,6 +61,11 @@ const loader = new GLTFLoader(manager);
  * Textures
  */
 const textureLoader = new THREE.TextureLoader(manager);
+
+/**
+ * Sounds
+ */
+const { hitSound, hitSound2, hitSound3 } = soundsSetup();
 
 /**
  * House
@@ -352,10 +358,33 @@ const tick = () => {
     brick.position.copy(brickBody.position);
     brick.quaternion.copy(brickBody.quaternion);
 
-    /* body.addEventListener("collide", () =>
-      body.applyForce(new CANNON.Vec3(0, 1, 0), body.position)
-    ); */
+    brickBody.addEventListener(
+      "collide",
+      ({ body }) => {
+        if (body === ghostBody) {
+          const ranNum = Math.random();
+          switch (true) {
+            case ranNum < 0.98:
+              hitSound.play();
+              break;
+
+            case ranNum > 0.999 && ranNum < 0.9995:
+              hitSound2.play();
+              break;
+
+            case ranNum > 0.9995:
+              hitSound3.play();
+              break;
+          }
+        }
+      }
+      //ghost.applyForce(new CANNON.Vec3(0, 1, 0), ghost.position);
+
+      //CANNON.DistanceConstraint(ghostBody, brickBody)
+      //console.log(body)
+    );
   });
+
   destructableWalls.map((destructableWall) =>
     destructableWall.map(({ brick, brickBody }) => {
       brick.position.copy(brickBody.position);

@@ -43,6 +43,8 @@ export const loaderSetup = () => {
   manager.onStart = (url, itemsLoaded, itemsTotal) => {
     showLoader();
 
+    document.querySelector("#atmosphere-sound").play();
+
     loaderInterval = setInterval(() => {
       //progressBarValue <= 99 && (progressBarValue += 1);
 

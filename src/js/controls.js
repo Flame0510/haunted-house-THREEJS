@@ -5,6 +5,8 @@ import { camera, controls } from "./camera.js";
 import { ghost } from "./ghost.js";
 import { fog } from "../script.js";
 
+const horrorHit = new Audio("/sounds/horror-hit.mp3");
+
 export const move = (forwardVelocity = 0, leftVelocity = 0) => {
   let direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
@@ -19,13 +21,27 @@ export const move = (forwardVelocity = 0, leftVelocity = 0) => {
 
   const teleportDistance = 20;
 
-  const teleport = ({ x, z }) =>
+  const outmapMessage = document.querySelector(".outmap-message-container");
+
+  const teleport = ({ x, z }) => {
+    horrorHit.play();
+
     gsap
       .timeline()
       .to(
         fog,
         {
           far: 1,
+          duration: 1,
+        },
+        0
+      )
+      .to(
+        outmapMessage,
+        {
+          display: "flex",
+          opacity: 1,
+          delay: 0.2,
           duration: 1,
         },
         0
@@ -39,10 +55,24 @@ export const move = (forwardVelocity = 0, leftVelocity = 0) => {
         },
         0
       )
-      .to(fog, {
-        far: 12,
-        duration: 1,
-      });
+      .to(
+        fog,
+        {
+          far: 12,
+          duration: 1,
+        },
+        1
+      )
+      .to(
+        outmapMessage,
+        {
+          display: "none",
+          opacity: 0,
+          duration: 1,
+        },
+        1
+      );
+  };
 
   switch (true) {
     case ghost.position.z < -teleportDistance:
