@@ -12,6 +12,8 @@ const horrorHit = new Howl({
   html5: true,
 });
 
+export const teleportDistance = 18;
+
 export const move = (forwardVelocity = 0, leftVelocity = 0) => {
   let direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
@@ -23,8 +25,6 @@ export const move = (forwardVelocity = 0, leftVelocity = 0) => {
 
       duration: 0.5,
     });
-
-  const teleportDistance = 20;
 
   const outmapMessage = document.querySelector(".outmap-message-container");
 

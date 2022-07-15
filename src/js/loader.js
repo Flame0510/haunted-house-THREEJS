@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
-import { atmosphereSound } from "./sounds";
+import { ambientSound } from "./sounds";
 
 export const loaderSetup = () => {
   const showLoader = () => {
@@ -33,10 +33,10 @@ export const loaderSetup = () => {
       });
   };
 
-  const atmosphereSoundBtn = document.querySelector("#play-btn");
+  const ambientSoundBtn = document.querySelector("#play-btn");
 
-  atmosphereSoundBtn.addEventListener("click", () => {
-    atmosphereSound.play();
+  ambientSoundBtn.addEventListener("click", () => {
+    ambientSound.play();
     hideLoader();
   });
 
@@ -79,7 +79,7 @@ export const loaderSetup = () => {
           {
             y: 50,
             opacity: 0,
-            duration: 1,
+            duration: 0.5,
           },
           0
         )

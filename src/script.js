@@ -9,8 +9,9 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as dat from "lil-gui";
 
 import { lights } from "./js/lights";
-import { soundsSetup } from "./js/sounds";
-import { move } from "./js/controls";
+import { ambientSound, soundsSetup } from "./js/sounds";
+import { getDistanceFromCenter } from "./js/distance";
+import { teleportDistance, move } from "./js/controls";
 import { controlPad } from "./js/controlPad";
 import { cameraSetup } from "./js/camera";
 import { floor } from "./js/floor";
@@ -354,6 +355,8 @@ const tick = () => {
   oldElapsedTime = elapsedTime;
 
   calculateFPS();
+
+  ambientSound.volume(getDistanceFromCenter(ghost, teleportDistance));
 
   //CONTROL PAD
   if (controlPad.style.position === "absolute") {
