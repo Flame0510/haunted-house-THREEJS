@@ -14,6 +14,8 @@ const horrorHit = new Howl({
 
 export const teleportDistance = 18;
 
+let isTeleporting = false;
+
 export const move = (forwardVelocity = 0, leftVelocity = 0) => {
   let direction = new THREE.Vector3();
   camera.getWorldDirection(direction);
@@ -29,10 +31,12 @@ export const move = (forwardVelocity = 0, leftVelocity = 0) => {
   const outmapMessage = document.querySelector(".outmap-message-container");
 
   const teleport = ({ x, z }) => {
-    horrorHit.play();
+    !isTeleporting && horrorHit.play();
+
+    isTeleporting = true;
 
     gsap
-      .timeline()
+      .timeline({ onComplete: () => (isTeleporting = false) })
       .to(
         fog,
         {
@@ -81,19 +85,19 @@ export const move = (forwardVelocity = 0, leftVelocity = 0) => {
 
   switch (true) {
     case ghost.position.z < -teleportDistance:
-      teleport({ x: -ghost.position.x, z: teleportDistance });
+      teleport({ x: -ghost.position.x, z: teleportDistance - 4 });
       break;
 
     case ghost.position.z > teleportDistance:
-      teleport({ x: -ghost.position.x, z: -teleportDistance });
+      teleport({ x: -ghost.position.x, z: -teleportDistance + 4 });
       break;
 
     case ghost.position.x < -teleportDistance:
-      teleport({ x: teleportDistance, z: -ghost.position.z });
+      teleport({ x: teleportDistance - 4, z: -ghost.position.z });
       break;
 
     case ghost.position.x > teleportDistance:
-      teleport({ x: -teleportDistance, z: -ghost.position.z });
+      teleport({ x: -teleportDistance + 4, z: -ghost.position.z });
       break;
 
     default:
