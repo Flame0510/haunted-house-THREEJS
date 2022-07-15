@@ -3,7 +3,7 @@ import * as THREE from "three";
 export const particlesSetup = ({ scene }) => {
   // Geometry
   const particlesGeometry = new THREE.BufferGeometry();
-  const count = 500000;
+  const count = 200000;
 
   const positions = new Float32Array(count * 3); // Multiply by 3 because each position is composed of 3 values (x, y, z)
 

@@ -43,7 +43,29 @@ export const bricksSetup = ({
     roughnessMap: bricksRoughnessTexture,
   });
 
-  const bricks = [...Array(300)].reduce((acc, _, i) => {
+  //HIT SOUNDS
+  const hitSound = new Howl({
+    src: ["sounds/hit.mp3"],
+    html5: true,
+  });
+
+  const hitSound2 = new Howl({
+    src: ["sounds/hit-2.mp3"],
+    html5: true,
+  });
+  const hitSound3 = new Howl({
+    src: ["sounds/hit-3.mp3"],
+    html5: true,
+  });
+
+  // const hitSound = new Audio("sounds/hit.mp3");
+  // const hitSound2 = new Audio("sounds/hit-2.mp3");
+  // const hitSound3 = new Audio("sounds/hit-3.mp3");
+
+  const brickEventListener = (body, targetBody, brickHitSound) =>
+    body === targetBody && brickHitSound.play();
+
+  const bricks = [...Array(200)].reduce((acc, _, i) => {
     const { body: brickBody, mesh: brick } = createBox(
       Math.random() * 0.3,
       Math.random() * 0.3,
@@ -60,16 +82,26 @@ export const bricksSetup = ({
 
     brickBody.quaternion.x = Math.random() * 10;
 
-    brickBody.addEventListener("collide", ({ body }) => {
-      if (body === ghostBody) {
-        Math.random() === 1 &&
-          world.addConstraint(
-            new CANNON.DistanceConstraint(ghostBody, brickBody, 1.2)
-          );
-      }
-    });
+    let brickHitSound;
 
-    acc.push({ brick, brickBody });
+    switch (true) {
+      case i % 6 === 0:
+        brickHitSound = hitSound2;
+        break;
+
+      case i % 8 === 0:
+        brickHitSound = hitSound3;
+        break;
+
+      default:
+        brickHitSound = hitSound;
+    }
+
+    brickBody.addEventListener("collide", ({ body }) =>
+      brickEventListener(body, ghostBody, brickHitSound)
+    );
+
+    acc.push({ brick, brickBody, brickHitSound });
 
     // world.remove(brickBody);
     // scene.remove(brick);

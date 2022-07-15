@@ -138,7 +138,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setClearColor("#262837");
 renderer.shadowMap.enabled = true;
 
@@ -189,28 +189,6 @@ destructableWalls.push(
     scene,
   })
 ); */
-
-bricks.map(({ brickBody }) => {
-  brickBody.addEventListener("collide", ({ body }) => {
-    if (body === ghostBody) {
-      const ranNum = Math.random();
-
-      switch (true) {
-        case ranNum < 0.8:
-          hitSound.play();
-          break;
-
-        case ranNum > 0.8 && ranNum < 0.9:
-          hitSound2.play();
-          break;
-
-        case ranNum > 0.9:
-          hitSound3.play();
-          break;
-      }
-    }
-  });
-});
 
 //HOUSE
 const house = new THREE.Group();
@@ -305,7 +283,7 @@ export const fog = fogSetup({ scene });
 /**
  * Sounds
  */
-const { hitSound, hitSound2, hitSound3 } = soundsSetup();
+soundsSetup();
 
 /**
  * Animate
@@ -317,35 +295,65 @@ let lastCalledTime = 0;
 let fps = 0;
 
 let counterFPS = [0];
+let averageFPS = 0;
+
+let loadingTime = 0;
+
+const removeBricks = (division) =>
+  bricks.map(
+    ({ brick, brickBody }, i) =>
+      i < bricks.length / division &&
+      (scene.remove(brick), world.remove(brickBody))
+  );
+
+const removeBricksHitSound = () =>
+  bricks.map(({ brickHitSound }) => brickHitSound.unload());
 
 const calculateFPS = () => {
   const elapsedTime = clock.getElapsedTime();
 
   //console.log(counterFPS);
 
-  if (document.querySelector(".loader").style.display === "none") {
+  document.querySelector(".loader").style.display !== "none" &&
+    (loadingTime = elapsedTime);
+
+  if (elapsedTime <= loadingTime) {
     if (!lastCalledTime) {
       lastCalledTime = Date.now();
       fps = 0;
       return;
     }
 
-    //console.log(lastCalledTime);
-
     let delta = (Date.now() - lastCalledTime) / 1000;
     lastCalledTime = Date.now();
     fps = 1 / delta;
     counterFPS.push(Math.round(fps));
 
-    //console.log(fps);
-
     const sumAllFPS = counterFPS.reduce((count, value) => count + value, 0);
-    const averageFPS = (sumAllFPS / counterFPS.length).toFixed(2);
-
+    averageFPS = (sumAllFPS / counterFPS.length).toFixed(2);
+  } else {
     document.querySelector("#fps-counter").innerHTML = averageFPS;
-    //console.log(averageFPS);
 
-    ghost.castShadow = averageFPS > 20;
+    if (averageFPS > 20 && averageFPS < 30) {
+      renderer.setPixelRatio(devicePixelRatio * 0.8);
+      ghost.castShadow = true;
+
+      removeBricksHitSound();
+      removeBricks(2);
+    } else if (averageFPS < 20) {
+      renderer.setPixelRatio(devicePixelRatio * 0.5);
+      ghost.castShadow = false;
+
+      fog.far = 18;
+
+      removeBricksHitSound();
+      removeBricks(1.4);
+    } else {
+      renderer.setPixelRatio(devicePixelRatio);
+      ghost.castShadow = true;
+
+      fog.far = 12;
+    }
   }
 };
 
@@ -444,7 +452,6 @@ const tick = () => {
 
   // Render
   renderer.render(scene, camera);
-  renderer.setPixelRatio(devicePixelRatio);
 
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);
