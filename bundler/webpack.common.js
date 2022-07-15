@@ -59,6 +59,12 @@ module.exports = {
           filename: "assets/fonts/[hash][ext]",
         },
       },
+
+      //Audio
+      {
+        test: /\.(ogg|mp3|wav|mpe?g)$/i,
+        type: "asset/resource",
+      },
     ],
   },
 };

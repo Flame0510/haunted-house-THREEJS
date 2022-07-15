@@ -3,7 +3,7 @@ import gsap from "gsap";
 
 import CANNON from "cannon";
 
-import { ghost } from "./ghost.js";
+import { ghost } from "./ghost";
 
 import { createBoxBody } from "./createBox";
 

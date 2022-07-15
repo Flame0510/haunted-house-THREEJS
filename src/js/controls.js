@@ -1,11 +1,16 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
-import { camera, controls } from "./camera.js";
-import { ghost } from "./ghost.js";
-import { fog } from "../script.js";
+import { camera } from "./camera";
+import { ghost } from "./ghost";
+import { fog } from "../script";
 
-const horrorHit = new Audio("/sounds/horror-hit.mp3");
+import { Howl } from "howler";
+
+const horrorHit = new Howl({
+  src: ["sounds/horror-hit.mp3"],
+  html5: true,
+});
 
 export const move = (forwardVelocity = 0, leftVelocity = 0) => {
   let direction = new THREE.Vector3();
@@ -76,19 +81,19 @@ export const move = (forwardVelocity = 0, leftVelocity = 0) => {
 
   switch (true) {
     case ghost.position.z < -teleportDistance:
-      teleport({ x: ghost.position.x, z: teleportDistance });
+      teleport({ x: -ghost.position.x, z: teleportDistance });
       break;
 
     case ghost.position.z > teleportDistance:
-      teleport({ x: ghost.position.x, z: -teleportDistance });
+      teleport({ x: -ghost.position.x, z: -teleportDistance });
       break;
 
     case ghost.position.x < -teleportDistance:
-      teleport({ x: teleportDistance, z: ghost.position.z });
+      teleport({ x: teleportDistance, z: -ghost.position.z });
       break;
 
     case ghost.position.x > teleportDistance:
-      teleport({ x: -teleportDistance, z: ghost.position.z });
+      teleport({ x: -teleportDistance, z: -ghost.position.z });
       break;
 
     default:

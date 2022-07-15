@@ -96,6 +96,27 @@ body {
           text-align: center;
         }
       }
+
+      .play-btn {
+        width: 40px;
+
+        background: none;
+
+        border: none;
+
+        opacity: 0;
+
+        position: absolute;
+
+        cursor: pointer;
+        outline: none;
+
+        transition: 0.3s;
+
+        &:hover {
+          width: 46px;
+        }
+      }
     }
   }
 

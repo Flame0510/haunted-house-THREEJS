@@ -3,30 +3,32 @@ import * as THREE from "three";
 import gsap from "gsap";
 import CANNON from "cannon";
 
+import { Howl, Howler } from "howler";
+
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as dat from "lil-gui";
 
-import { lights } from "./js/lights.js";
-import { soundsSetup } from "./js/sounds.js";
-import { move } from "./js/controls.js";
-import { controlPad } from "./js/controlPad.js";
-import { cameraSetup } from "./js/camera.js";
-import { floor } from "./js/floor.js";
-import { wallsSetup } from "./js/walls.js";
-import { roof } from "./js/roof.js";
-import { bushes } from "./js/bushes.js";
-import { graves } from "./js/graves.js";
-import { door } from "./js/door.js";
-import { ghosts } from "./js/ghosts.js";
-import { fogSetup } from "./js/fog.js";
-import { bricksSetup } from "./js/bricks.js";
+import { lights } from "./js/lights";
+import { soundsSetup } from "./js/sounds";
+import { move } from "./js/controls";
+import { controlPad } from "./js/controlPad";
+import { cameraSetup } from "./js/camera";
+import { floor } from "./js/floor";
+import { wallsSetup } from "./js/walls";
+import { roof } from "./js/roof";
+import { bushes } from "./js/bushes";
+import { graves } from "./js/graves";
+import { door } from "./js/door";
+import { ghosts } from "./js/ghosts";
+import { fogSetup } from "./js/fog";
+import { bricksSetup } from "./js/bricks";
 import { destructableWallSetup } from "./js/destructableWall";
 
-import { createGhost } from "./js/ghost.js";
+import { createGhost } from "./js/ghost";
 import { particlesSetup } from "./js/particles";
 import { physicsSetup } from "./js/physics";
 
-import { loaderSetup } from "./js/loader.js";
+import { loaderSetup } from "./js/loader";
 
 import { createSphere } from "./js/createSphere";
 import { createBox, createBoxBody } from "./js/createBox";
@@ -38,6 +40,8 @@ const { FLOOR, BRICKS, HOUSE, GHOST } = collisionFilterGroups;
 var initializeDomEvents = require("threex-domevents");
 var THREEx = {};
 initializeDomEvents(THREE, THREEx);
+
+//require("html-loader?interpolate=require!./index.html");
 
 /**
  * Base
@@ -61,11 +65,6 @@ const loader = new GLTFLoader(manager);
  * Textures
  */
 const textureLoader = new THREE.TextureLoader(manager);
-
-/**
- * Sounds
- */
-const { hitSound, hitSound2, hitSound3 } = soundsSetup();
 
 /**
  * House
@@ -152,7 +151,7 @@ renderer.shadowMap.enabled = true;
 
 const domEvents = new THREEx.DomEvents(camera, canvas);
 
-const bricks = bricksSetup({
+export const bricks = bricksSetup({
   ghostBody,
   textureLoader,
   defaultMaterial,
@@ -189,6 +188,28 @@ destructableWalls.push(
     scene,
   })
 ); */
+
+bricks.map(({ brickBody }) => {
+  brickBody.addEventListener("collide", ({ body }) => {
+    if (body === ghostBody) {
+      const ranNum = Math.random();
+
+      switch (true) {
+        case ranNum < 0.8:
+          hitSound.play();
+          break;
+
+        case ranNum > 0.8 && ranNum < 0.9:
+          hitSound2.play();
+          break;
+
+        case ranNum > 0.9:
+          hitSound3.play();
+          break;
+      }
+    }
+  });
+});
 
 //HOUSE
 const house = new THREE.Group();
@@ -281,6 +302,11 @@ const { ghost1, ghost2, ghost3 } = ghosts({ scene });
 export const fog = fogSetup({ scene });
 
 /**
+ * Sounds
+ */
+const { hitSound, hitSound2, hitSound3 } = soundsSetup();
+
+/**
  * Animate
  */
 const clock = new THREE.Clock();
@@ -357,32 +383,6 @@ const tick = () => {
   bricks.map(({ brick, brickBody }) => {
     brick.position.copy(brickBody.position);
     brick.quaternion.copy(brickBody.quaternion);
-
-    brickBody.addEventListener(
-      "collide",
-      ({ body }) => {
-        if (body === ghostBody) {
-          const ranNum = Math.random();
-          switch (true) {
-            case ranNum < 0.98:
-              hitSound.play();
-              break;
-
-            case ranNum > 0.999 && ranNum < 0.9995:
-              hitSound2.play();
-              break;
-
-            case ranNum > 0.9995:
-              hitSound3.play();
-              break;
-          }
-        }
-      }
-      //ghost.applyForce(new CANNON.Vec3(0, 1, 0), ghost.position);
-
-      //CANNON.DistanceConstraint(ghostBody, brickBody)
-      //console.log(body)
-    );
   });
 
   destructableWalls.map((destructableWall) =>

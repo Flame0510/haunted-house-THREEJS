@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import gsap from "gsap";
 
+import { atmosphereSound } from "./sounds";
+
 export const loaderSetup = () => {
   const showLoader = () => {
     gsap
@@ -31,6 +33,13 @@ export const loaderSetup = () => {
       });
   };
 
+  const atmosphereSoundBtn = document.querySelector("#play-btn");
+
+  atmosphereSoundBtn.addEventListener("click", () => {
+    atmosphereSound.play();
+    hideLoader();
+  });
+
   //LOADER MANAGER
   const manager = new THREE.LoadingManager();
   const progressBar = document.querySelector(".progress-bar");
@@ -42,8 +51,6 @@ export const loaderSetup = () => {
 
   manager.onStart = (url, itemsLoaded, itemsTotal) => {
     showLoader();
-
-    document.querySelector("#atmosphere-sound").play();
 
     loaderInterval = setInterval(() => {
       //progressBarValue <= 99 && (progressBarValue += 1);
@@ -65,8 +72,39 @@ export const loaderSetup = () => {
     progressBarValue = 100;
 
     setTimeout(() => {
-      hideLoader();
+      gsap
+        .timeline()
+        .to(
+          ".loader-progress-bar",
+          {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+          },
+          0
+        )
+        .to(
+          ".loader-title",
+          {
+            y: -20,
+            duration: 1,
+          },
+          0
+        )
+        .to(
+          ".play-btn",
+          {
+            x: 0,
+            y: 20,
+            opacity: 1,
+            duration: 1,
+          },
+          0
+        );
+
+      //hideLoader();
       clearInterval(loaderInterval);
+      //document.querySelector("#atmosphere-sound").play();
     }, 1000);
   };
 
