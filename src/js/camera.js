@@ -9,12 +9,7 @@ export let camera;
 export let controls;
 
 export const cameraSetup = ({ ghost, sizes, canvas, scene }) => {
-  camera = new THREE.PerspectiveCamera(
-    75,
-    sizes.width / sizes.height,
-    0.1,
-    100
-  );
+  camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 50);
   camera.position.x = 0;
   camera.position.y = 3;
   camera.position.z = 8;

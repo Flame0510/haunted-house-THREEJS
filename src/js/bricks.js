@@ -44,7 +44,7 @@ export const bricksSetup = ({
   });
 
   //HIT SOUNDS
-  const hitSound = new Howl({
+  /* const hitSound = new Howl({
     src: ["sounds/hit.mp3"],
     html5: true,
   });
@@ -56,11 +56,11 @@ export const bricksSetup = ({
   const hitSound3 = new Howl({
     src: ["sounds/hit-3.mp3"],
     html5: true,
-  });
+  }); */
 
-  // const hitSound = new Audio("sounds/hit.mp3");
-  // const hitSound2 = new Audio("sounds/hit-2.mp3");
-  // const hitSound3 = new Audio("sounds/hit-3.mp3");
+  const hitSound = new Audio("sounds/hit.mp3");
+  const hitSound2 = new Audio("sounds/hit-2.mp3");
+  const hitSound3 = new Audio("sounds/hit-3.mp3");
 
   const brickEventListener = (body, targetBody, brickHitSound) =>
     body === targetBody && brickHitSound.play();
